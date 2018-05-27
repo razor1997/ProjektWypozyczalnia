@@ -1,0 +1,34 @@
+_satellite.pushBlockingScript(function(event, target, $variables){
+  var isSet = _satellite.readCookie("DTM: Vehicle Interaction");
+//to accomodate NML launch, we cannot rely on vehicle model
+//var model = _satellite.getVar("Vehicle Model");
+var model = _satellite.getVar("vehicleId")
+ret = false;
+
+if (isSet) { 
+	var toArr = isSet.split(",") // takes string from cookie creates array
+	var seen = toArr; 
+	
+			if (jQuery.inArray(model, seen,0) > -1){   // is the car model in array
+				return ret	// will return false - don't want to add multiple of same car
+		
+		
+			}else{ // adds vehicle if cookie exists. 
+					seen.push(model);
+					var cookieVal = seen.toString()
+					_satellite.setCookie("DTM: Vehicle Interaction", cookieVal, 1)
+					_satellite.setCookie("set e10", "first time car seen")
+					ret = true;
+					return ret	
+	
+			};
+} else{ // creates if cookie doesn't exist. 
+				seen = []
+				seen.push(model);
+				var cookieVal = seen.toString()
+				_satellite.setCookie("DTM: Vehicle Interaction", cookieVal, 1)
+			    _satellite.setCookie("set e10", "first time car seen")
+				ret = true;
+				return ret
+};
+});

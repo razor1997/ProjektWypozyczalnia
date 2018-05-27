@@ -1,0 +1,14 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  jQuery(document).on("simulatorRenderCompleted", function() {
+jQuery(".ui-slider-handle").on("click.tagging" , function () {
+	var slider = $(".ui-slider-handle").index(this)
+ 		if (slider == 0) {
+    	_satellite.setVar("Slider", "one")
+		} else if (slider == 1) {
+  		_satellite.setVar("Slider2", "two")
+		} else {
+      return false
+    }
+});
+});
+});

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Wypożyczalnia</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="CSS/newcss.css" />
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript">
+            function slideSwitch() {
+                var $active = $('#slideshow IMG.active');
+
+                if ( $active.length == 0 ) $active = $('#slideshow IMG:last');
+
+                // use this to pull the images in the order they appear in the markup
+                var $next =  $active.next().length ? $active.next()
+                    : $('#slideshow IMG:first');
+
+                // uncomment the 3 lines below to pull the images in random order
+                $active.addClass('last-active');
+
+                $next.css({opacity: 0.0})
+                    .addClass('active')
+                    .animate({opacity: 2.0}, 3000, function() {
+                        $active.removeClass('active last-active');
+                    });
+            }
+
+            $(function() {
+                setInterval( "slideSwitch()", 3000 );
+            });
+
+         </script>
+    </head>
+     <body>
+          <header>
+              <h1 class="logo">Wypożyczalnia samochodów luksusowych</h1>
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="oferta.html">Oferta</a></li>                    
+                    <li><a href="Cennik.html">Cennik</a></li>
+                    <li><a href="zarezerwuj.html">Zarezerwuj</a></li>
+                    <li><a href="onas.html"> O nas</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+            </nav>
+          </header>
+            <main>
+                 <article>
+                     <div class="images">
+                        <section>
+                           <h1> Witaj w najlepszej wypożyczalni luksusowych aut w Polsce</h1>
+                           <div id="slideshow">
+                               <img src="Galeria/s63.jpg" alt="S63" width="695" height="325"/> 
+                               <img src="Galeria/gclass.jpg" alt="gclass" width="695" height="325"/> 
+                               <img src="Galeria/gtr.jpg" alt="gtr" width="695" height="325" /> 
+                               <img src="Galeria/mustang.jpg" alt="mustang" width="680" height="325" /> 
+                               <img src="Galeria/amg.jpg" alt="amg" width="695" height="325" /> 
+                               <img src="Galeria/m4.jpg" alt="BMW M4" width="695" height="325" />                                
+                            </div> 
+                           <h1>Dlaczego my?</h1>
+                           <div>Nic tak nie motywuje do pracy i działania jak pasja do tego co się robi. Nasz zespół swoje doświadczenie w branży samochodowej zdobywa od 2006 roku. Wtedy właśnie w Polsce raczkował rynek wynajmu samochodów oraz alternatywnych rozwiązań w zakresie finansowania samochodów. Od zawsze jesteśmy otwarci na współpracę w zakresie zarówno dostarczania jak i zagospodarowania floty samochodowej. Normalnie pracujący ludzie pożytkują 8 godzin dziennie na pracę. Ci bardziej ambitni 12. Niektóre branże wymagają dużej atencji dlatego też zatrudnia się pracowników zmianowo, którzy potrafią być w pełnej gotowości 24h na dobę. Z doświadczenia wiemy, że nasi Klienci potrafią nam wygospodarować jeszcze 1 godzinę w ciągu dnia dla spełnienie ich oczekiwań. Jesteśmy gotowi na najważniejszy sprawdzian naszych możliwości - na Ciebie!
+                            Kolumna boczna</div>
+                        </section>
+                     </div>
+                 </article>
+            </main>
+          <aside>
+              <div class="aside">
+                  <h1>Masz pytanie?</h1>
+              </div>
+          </aside>
+          <footer>
+               Kontakt 725 056 943 Email konrad.bielak.praca@gmail.com 
+                                @FirstClassCars
+          </footer>
+     </body>
+</html>

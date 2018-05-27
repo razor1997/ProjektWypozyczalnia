@@ -1,0 +1,4 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  var s = _satellite.getToolsByType('sc')[0].getS();
+s.clearVars()
+});

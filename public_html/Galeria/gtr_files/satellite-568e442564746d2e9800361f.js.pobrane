@@ -1,0 +1,4 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  var branchVersion = $("link:eq(0)").attr("href").split("/")[6]
+_satellite.notify("ANALYTICS DTM Debug - Branch Version: " + branchVersion , 4)
+});

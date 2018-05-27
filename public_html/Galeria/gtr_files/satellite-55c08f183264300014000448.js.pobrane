@@ -1,0 +1,34 @@
+_satellite.pushBlockingScript(function(event, target, $variables){
+  //########################################
+//                    TAG GOOGLE Remarketing
+// Change conversion Id and conversion Label 
+//########################################
+
+function addScript(sScriptSrc, oCallback) {
+     var oHead = document.getElementsByTagName('head')[0];
+     var oScript = document.createElement('script');
+     oScript.type = 'text/javascript';
+     oScript.src = sScriptSrc;
+     // most browsers
+     oScript.onload = oCallback;
+     // IE 6 & 7
+          oScript.onreadystatechange = function() {
+               if (this.readyState == 'complete') {
+                    oCallback();
+               }
+          }
+     oHead.appendChild(oScript);
+}
+
+
+          
+var adwParam = {
+                     google_conversion_id : 966589524   // update conversion Id
+				     ,google_custom_params : window.google_tag_params
+					 ,google_remarketing_only :true
+     }
+
+     addScript('//www.googleadservices.com/pagead/conversion_async.js', function() {
+          window.google_trackConversion(adwParam);
+     });
+});

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wypożyczalnia</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="CSS/newcss.css" />
+    </head>
+     <body>
+          <header>
+              <h1 class="logo">Wypożyczalnia samochodów luksusowych</h1>
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="oferta.html">Oferta</a></li>                    
+                    <li><a href="Cennik.html">Cennik</a></li>
+                    <li><a href="zarezerwuj.html">Zarezerwuj</a></li>
+                    <li><a href="onas.html"> O nas</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                </ul>
+            </nav>
+          </header>
+         <main>
+<form method="post" action="mailto:xxx@xxx.xx" enctype="text/plain" onsubmit="return sprawdz()" >
+ <table class="fortab">
+    <tr> 
+        <td>Nazwisko: </td>
+        <td><input name="nazw" size="30" id="nazw"/> </td>
+        <td id="nazw_error" class="czerwone"></td>
+    </tr>
+        <tr> 
+        <td>Imie: </td>
+        <td><input name="imie" size="30" id="imie"/> </td>
+        <td id="imie_error" class="czerwone"></td>
+    </tr>
+    <tr>
+        <td>Wiek:</td>
+        <td><input name="wiek" size ="30" id="wiek"/></td>
+        <td id="wiek_error" class="czerwone"></td>
+    </tr>
+    <tr>
+        <td>Państwo:</td>
+        <td><select name="kraj" id="kraj">
+            <option value="pl" selected="selected">Polska</option>
+            <option value="gb">Wielka Brytania</option>
+            </select>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Adres e-mail: </td>
+        <td><input name="email" size ="30" id="email"/></td>
+        <td id="email_error" class="czerwone"></td>
+    </tr>
+    <tr>
+        <td>Numer kontaktowy: </td>
+        <td><input name="tele" size ="30" id="tele"/></td>
+        <td id="tele_error" class="czerwone"></td>
+    </tr>
+ </table>
+ <h4>Chcę uzyskać dostęp do:</h4>
+        <input name="Siłownia" type="checkbox" id="silka"/>Siłownia
+        <input name="Strefa cross-fit" type="checkbox" id="cross"/>Strefa cross-fit
+        <input name="Strefa cardio" type="checkbox" id="cardio"/>Strefa cardio
+        <input name="Basen" type="checkbox" id="basen"/>Basen
+        <input name="Solarium" type="checkbox" id="solarium"/>Solarium
+        <input name="Strefa vip" type="checkbox" id="vip"/>Strefa vip
+        <span id="dostep_error" class="czerwone"></span>
+ 
+<h4>Karnet:</h4>
+        <input name="karnet" id="karnet" type="radio" value="Miesiac" />Miesiąc
+        <input name="karnet" type="radio" value= "Dwa miesiace" />Dwa miesiące
+        <input name="karnet" type="radio" value= "Trzy miesiace" />Trzy miesiące
+        <span id="karnet_error" class="czerwone"></span><br /><br/>
+        
+<input type="button" value=" Oblicz koszt karnetu" onclick="return oblicz()"/><br/>
+<span id="cena" class="biale"></span>
+
+ <h4>Sposób zapłaty:</h4>
+        <input name="zaplata" id="zaplata" type="radio" value="Eurocard" />Eurocard
+        <input name="zaplata" type="radio" value= "Visa" />Visa
+        <input name="zaplata" type="radio" value= "Przelew bankowy" />Przelew bankowy
+        <span id="zaplata_error" class="czerwone"></span><br /><br/>
+<input name="regu" type="checkbox" id="regu"/>Oświadczam że zapoznałem się z <a href="regulamin.html">regulaminem</a>
+oraz akceptuję jego postanowienia.<span id="regu_error" class="czerwone"></span><br />
+<input type="submit" value=" Wyślij " />
+<input type="reset" value=" Anuluj " />
+</form>
+</main>
+          <footer>
+               Kontakt 725 056 943 Email konrad.bielak.praca@gmail.com 
+                                @FirstClassCars
+          </footer>
+     </body>
+</html>

@@ -1,0 +1,257 @@
+/* Thresholds */
+var bounceTriggerScroll=50; /*scroll %*/
+var bounceTriggerTimer=30000; /* in ms */
+
+/* Triggers */
+if(typeof sessionStorage !=="undefined"){
+	if(typeof sessionStorage.bouncePageNumber==="undefined"){
+		sessionStorage.setItem('bouncePageNumber', 1);
+		
+		var testBounceInterval = setInterval(function(){ testBounce() }, 0);
+		function testBounce(){
+			if(_satellite.getVar('bounceScroll')=="true" && _satellite.getVar('bounceTimer')=="true"){
+				//Fire a tag
+				/*_satellite.notify('Trigger bounceCombined = TRIGGER A HIT');*/
+				_satellite.track('55 - bounceCombined');
+				_satellite.setVar('bounceTrigger','true');
+				clearInterval(testBounceInterval);
+			}
+		}
+	}else{
+		sessionStorage.bouncePageNumber=parseInt(sessionStorage.bouncePageNumber)+1;
+		_satellite.setVar('bounceTrigger','true');
+	}
+}
+
+/* Bounce scroll trigger */
+function bounceScroll(){
+	if(_satellite.getVar('bounceTrigger')=="undefined" || _satellite.getVar('bounceTrigger')!=="true"){
+		_satellite.setVar('bounceScroll','true');
+	}
+}
+
+/* Bounce timer trigger */
+(function bounceTimer(){
+	setTimeout(function(){
+		if(_satellite.getVar('bounceTrigger')=="undefined" || _satellite.getVar('bounceTrigger')!=="true"){
+			_satellite.setVar('bounceTimer','true');
+		}
+	}, bounceTriggerTimer);
+})();
+
+/* % scroll detection */
+var scrollPercentageResult=scrollPercentageResult || 0;
+function scroll55(){ "use strict"
+	  var scrollDirection = "",
+		  scrollElementId,
+		  DOMUtil = {
+		  addEventListener: (function(){
+			  if ( window.addEventListener )
+				return function(el, ev, fn, c){
+					return el.addEventListener(ev, fn, !!c)
+				}
+			  return function(el, ev, fn){
+				  return el.attachEvent("on"+ev, function(e){
+					  var e = e || window.event
+					  e.target = e.target || e.srcElement
+					  e.relatedTarget = e.relatedTarget || e.fromElement || e.toElement
+					  e.isImmediatePropagationStopped = e.isImmediatePropagationStopped || false
+					  e.preventDefault = e.preventDefault || function(){
+						  e.returnValue = false
+					  }
+					  e.stopPropagation = e.stopPropagation || function(){
+						  e.cancelBubble = true
+					  }
+					  e.stopImmediatePropagation = e.stopImmediatePropagation || function(){
+						  e.stopPropagation()
+						  e.isImmediatePropagationStopped = true
+					  }
+					  if ( !e.isImmediatePropagationStopped )
+						fn(e)
+				  })
+			  }
+		  }())
+		, removeEventListener: (function(){
+			  if ( window.removeEventListener )
+				return function(el, ev, fn, c){
+					return el.removeEventListener(ev, fn, !!c)
+				}
+			  return function(el, ev, fn){
+				  el.detachEvent("on"+ev, fn)
+			  }
+		  }())
+		, windowHeight: function(){
+			  if (window.innerHeight)
+				return window.innerHeight;
+			  else if (document.documentElement && document.documentElement.clientHeight) // Explorer 6 Strict Mode
+				return document.documentElement.clientHeight;
+			  else if (document.body)  // other explorers
+				return document.body.clientHeight;
+			  return 0
+		  }
+		, windowWidth: function(){
+			  if (window.innerWidth)
+				return window.innerWidth;
+			  else if (document.documentElement && document.documentElement.clientWidth) // Explorer 6 Strict Mode
+				return document.documentElement.clientWidth;
+			  else if (document.body)  // other explorers
+				return document.body.clientWidth;
+			  return 0  
+		  }
+	  }
+	  , CSSMatrix = function(str){
+		  if(!str || str === 'none') {
+			for(var i=0;i<16;i++){
+			  this['m'+((i/4|0)+1)+(i%4+1)] = i%4==(i/4|0) ? 1 : 0; 
+			}
+			return this
+		  }
+		  return this.setMatrixValue(str);
+		};
+		
+	  CSSMatrix.prototype = {
+		constructor : CSSMatrix,
+
+		get a(){ return this.m11; },
+		get b(){ return this.m21; },
+		get c(){ return this.m12; },
+		get d(){ return this.m22; },
+		get e(){ return this.m13; },
+		get f(){ return this.m23; },
+
+		set a(value){ this.m11 = value; },
+		set b(value){ this.m21 = value; },
+		set c(value){ this.m12 = value; },
+		set d(value){ this.m22 = value; },
+		set e(value){ this.m13 = value; },
+		set f(value){ this.m23 = value; },
+
+		setMatrixValue : function(str){
+		  var values = str.match(/[+-]?\d*[.]?\d+(?=,|\))/g);
+		  for(var i=0;i<16;i++){
+			this['m'+((i/4|0)+1)+(i%4+1)] = Number(values[i]);
+		  }
+
+		  return this;
+		},
+		toString : function(){
+		  var str = this.m11.toFixed(6);
+
+		  for(var i=1;i<16;i++){
+			str += ',' + ( this['m'+((i/4|0)+1)+(i%4+1)] ).toFixed(6);
+		  }
+
+		  return 'matrix3d(' + str + ')';
+		}
+	  };
+	  
+	  var scrollTrack = (function(){
+		  var resizetimer, scrolltimer
+			, direction = scrollDirection || "bottom"
+			, scrollHeight = function(){
+				  return scrollElt && scrollElt.scrollHeight || Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
+			  }
+			, scrollWidth = function(){
+				  return scrollElt && scrollElt.scrollWidth || Math.max(document.body.scrollWidth, document.documentElement.scrollWidth)
+			  }
+			, scrollTop = function(){
+				var st
+				, tr
+				, matrix = undefined
+				
+				try{
+				  st = window.getComputedStyle(eventElt, null)
+				  , tr = st.getPropertyValue("-webkit-transform") ||
+					   st.getPropertyValue("-moz-transform") ||
+					   st.getPropertyValue("-ms-transform") ||
+					   st.getPropertyValue("-o-transform") ||
+					   st.getPropertyValue("transform") ||
+					   "none"
+				}catch(e){
+				  tr = "none"
+				}
+				
+				if(tr !== "none"){
+				  matrix = new CSSMatrix(tr)
+				}
+				
+				switch(direction){
+				  case 'top':
+					return tr != "none" ?
+						 scrollEltHeight - Math.abs(matrix.d) - windowHeight
+						  :  Math.abs(scrollElt && scrollElt.scrollTop || ( document.body.scrollTop || document.documentElement.scrollTop || 0 )) - windowHeight
+					break;
+				  case 'left':
+					return tr != "none" ?
+						 scrollEltWidth - Math.abs(matrix.b) - windowWidth
+						  :  Math.abs(scrollElt && scrollElt.scrollLeft || ( document.body.scrollLeft || document.documentElement.scrollLeft || 0 )) - windowWidth
+					break;
+				  case 'right':
+					return tr != "none" ? 
+						  Math.abs(matrix.b) + windowWidth
+						  :  Math.abs(scrollElt && scrollElt.scrollLeft || ( document.body.scrollLeft || document.documentElement.scrollLeft || 0 )) + windowWidth
+					break;
+				  case 'bottom':
+				  default:
+					return tr != "none" ?
+						  Math.abs(matrix.d) + windowHeight
+						  :  Math.abs(scrollElt && scrollElt.scrollTop || ( document.body.scrollTop || document.documentElement.scrollTop || 0 )) + windowHeight
+					break;
+				}
+			  }
+			, eventElt = scrollElementId || window
+			, scrollElt = (eventElt !== window) && eventElt || null
+			, scrollEltHeight = scrollHeight()
+			, scrollEltWidth = scrollWidth()
+			, windowHeight = DOMUtil.windowHeight()
+			, windowWidth = DOMUtil.windowWidth()
+			, start = window["performance"] && window["performance"]["timing"] && window["performance"]["timing"]["domInteractive"] || (new Date).getTime()
+			, onresizeEL = function(){ clearTimeout(resizetimer)
+				  resizetimer = setTimeout(onresize, 32)
+			  }
+			, onresize = function(){
+				  scrollEltHeight = scrollHeight()
+				  windowHeight = DOMUtil.windowHeight()
+			  }
+			, onscrollEL = function(){ clearTimeout(scrolltimer)
+				  scrolltimer = setTimeout(onscroll, 32)
+			  }
+			, onscroll = function(){
+				  var pos, percent
+				  pos = scrollTop()
+				  percent = Math.floor( pos / ((scrollEltHeight)) * 100 )
+				  
+				  scrollPercentageResult=percent;
+				  if(scrollPercentageResult>bounceTriggerScroll){
+					bounceScroll();
+				  }
+			  }
+			  return {
+				start: function(){
+					DOMUtil.addEventListener(window, "resize", onresizeEL)
+					DOMUtil.addEventListener(eventElt, "scroll", onscrollEL),
+					DOMUtil.addEventListener(document, "mousewheel", onscrollEL),
+					DOMUtil.addEventListener(document, "DOMMouseScroll", onscrollEL)
+				}
+			  }
+		}())
+	  scrollTrack.start();
+	 
+	  return "";
+	}
+
+/* Event listener */
+function listen(evnt, elem, func){
+	if (elem.addEventListener)  // W3C DOM
+        elem.addEventListener(evnt,func,false);
+    else if (elem.attachEvent) { // IE DOM
+         var r = elem.attachEvent("on"+evnt, func);
+         return r;
+    }
+}
+
+/* Launch % scroll detection on load */
+(function(){
+	listen("load", window, function() {scroll55()});
+})();
+

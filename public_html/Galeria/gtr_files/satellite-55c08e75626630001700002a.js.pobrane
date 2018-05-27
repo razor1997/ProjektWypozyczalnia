@@ -1,0 +1,16 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  jQuery(document).on("simulatorRenderCompleted", function() {
+	jQuery(".rci-simulator").data('adobe-tagging-count', 0);
+	var elements = "#modelSelect,#versionSelect,#stateSelect,#citySelect,.ui-slider-handle"
+		jQuery(elements).on("click.tagging" , function(){
+			jQuery('.rci-simulator').is(function(){
+				var $this = jQuery(this),
+					count = $this.data('adobe-tagging-count') + 1;
+					$this.data('adobe-tagging-count', count);
+					_satellite.setVar("Interaction Count", count);
+			});
+		});
+	});
+
+
+});
